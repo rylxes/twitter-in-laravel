@@ -11,14 +11,14 @@ You need to create an application and create your access token in the [Applicati
 
 Add `thujohn/twitter` to `composer.json`.
 ```
-"thujohn/twitter": "~2.0"
+"rylxes/twitter-in-laravel": "~2.0"
 ```
 
 Run `composer update` to pull down the latest version of Twitter.
 
 Or run
 ```
-composer require thujohn/twitter
+composer require rylxes/twitter-in-laravel
 ```
 
 Now open up `/config/app.php` and add the service provider to your `providers` array.
