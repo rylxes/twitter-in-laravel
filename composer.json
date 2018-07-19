@@ -1,12 +1,12 @@
 {
-    "name": "thujohn/twitter",
-    "description": "Twitter API for Laravel",
+    "name": "rylxes/twitter-in-laravel",
+    "description": "Reformed Twitter API for Laravel",
 	"keywords": ["twitter", "laravel", "laravel4", "laravel5"],
     "license": "MIT",
     "authors": [
         {
-            "name": "thujohn",
-            "email": "jonathan.thuau@gmail.com"
+            "name": "rylxes",
+            "email": "rylxes@gmail.com"
         }
     ],
     "require": {
