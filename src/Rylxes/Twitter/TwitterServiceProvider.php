@@ -1,8 +1,8 @@
-<?php namespace Thujohn\Twitter;
+<?php namespace Rylxes\Twitter;
 
 use Illuminate\Support\ServiceProvider;
 
-use Thujohn\Twitter\Twitter;
+use Rylxes\Twitter\Twitter;
 
 class TwitterServiceProvider extends ServiceProvider {
 
@@ -64,7 +64,7 @@ class TwitterServiceProvider extends ServiceProvider {
 		}
 		else if ($laravelVersion == 4)
 		{
-			$this->package('thujohn/twitter', 'ttwitter', __DIR__.'/../..');
+			$this->package('rylxes/twitter', 'ttwitter', __DIR__.'/../..');
 		}
 
 		$this->app->singleton(Twitter::class, function () use ($app) {

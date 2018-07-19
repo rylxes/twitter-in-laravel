@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Thujohn\\Twitter": "src/"
+            "Rylxes\\Twitter": "src/"
         }
     },
     "minimum-stability": "stable"

@@ -5,7 +5,7 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
 {
     protected function getTwitter()
     {
-        return $this->getMockBuilder('Thujohn\Twitter\Twitter')
+        return $this->getMockBuilder('Rylxes\Twitter\Twitter')
                     ->setMethods(array('query'))
                     ->disableOriginalConstructor()
                     ->getMock();

@@ -1,15 +1,15 @@
 # Twitter
 
-Twitter API for Laravel 4/5
+Twitter API for Laravel 4/5 originally forked from [thujohn/twitter](https://github.com/thujohn/twitter)
 
 You need to create an application and create your access token in the [Application Management](https://apps.twitter.com/).
 
-[![Build Status](https://travis-ci.org/thujohn/twitter.png?branch=master)](https://travis-ci.org/thujohn/twitter)
+[![Build Status](https://travis-ci.org/rylxes/twitter-in-laravel.svg?branch=master)](https://travis-ci.org/rylxes/twitter-in-laravel)
 
 
 ## Installation
 
-Add `thujohn/twitter` to `composer.json`.
+Add `rylxes/twitter` to `composer.json`.
 ```
 "rylxes/twitter-in-laravel": "~2.0"
 ```
@@ -24,14 +24,14 @@ composer require rylxes/twitter-in-laravel
 Now open up `/config/app.php` and add the service provider to your `providers` array.
 ```php
 'providers' => [
-	Thujohn\Twitter\TwitterServiceProvider::class,
+	Rylxes\Twitter\TwitterServiceProvider::class,
 ]
 ```
 
 Now add the alias.
 ```php
 'aliases' => [
-	'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
+	'Twitter' => Rylxes\Twitter\Facades\Twitter::class,
 ]
 ```
 
@@ -40,7 +40,7 @@ Now add the alias.
 
 The package now requires PHP >= 5.4.0
 
-Facade has changed (Thujohn\Twitter\Facades\Twitter)
+Facade has changed (Rylxes\Twitter\Facades\Twitter)
 
 Config file has been updated (debug, UPLOAD_URL, ACCESS_TOKEN_URL, REQUEST_TOKEN_URL)
 
@@ -51,16 +51,16 @@ set_new_config() has been renamed reconfig()
 
 ### Laravel 4
 
-Run `php artisan config:publish thujohn/twitter` and modify the config file with your own informations.
+Run `php artisan config:publish rylxes/twitter` and modify the config file with your own informations.
 ```
-/app/config/packages/thujohn/twitter/config.php
+/app/config/packages/rylxes/twitter/config.php
 ```
 Also, make sure to remove the env in the config file and replace it with your information.
 
 
 ### Laravel 5
 
-Run `php artisan vendor:publish --provider="Thujohn\Twitter\TwitterServiceProvider"` and modify the config file with your own information.
+Run `php artisan vendor:publish --provider="Rylxes\Twitter\TwitterServiceProvider"` and modify the config file with your own information.
 ```
 /config/ttwitter.php
 ```

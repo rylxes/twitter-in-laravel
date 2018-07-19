@@ -1,4 +1,4 @@
-<?php namespace Thujohn\Twitter;
+<?php namespace Rylxes\Twitter;
 
 use RunTimeException;
 use Carbon\Carbon as Carbon;
@@ -6,19 +6,19 @@ use Illuminate\Session\Store as SessionStore;
 use Illuminate\Config\Repository as Config;
 use tmhOAuth;
 
-use Thujohn\Twitter\Traits\AccountTrait;
-use Thujohn\Twitter\Traits\BlockTrait;
-use Thujohn\Twitter\Traits\DirectMessageTrait;
-use Thujohn\Twitter\Traits\FavoriteTrait;
-use Thujohn\Twitter\Traits\FriendshipTrait;
-use Thujohn\Twitter\Traits\GeoTrait;
-use Thujohn\Twitter\Traits\HelpTrait;
-use Thujohn\Twitter\Traits\ListTrait;
-use Thujohn\Twitter\Traits\MediaTrait;
-use Thujohn\Twitter\Traits\SearchTrait;
-use Thujohn\Twitter\Traits\StatusTrait;
-use Thujohn\Twitter\Traits\TrendTrait;
-use Thujohn\Twitter\Traits\UserTrait;
+use Rylxes\Twitter\Traits\AccountTrait;
+use Rylxes\Twitter\Traits\BlockTrait;
+use Rylxes\Twitter\Traits\DirectMessageTrait;
+use Rylxes\Twitter\Traits\FavoriteTrait;
+use Rylxes\Twitter\Traits\FriendshipTrait;
+use Rylxes\Twitter\Traits\GeoTrait;
+use Rylxes\Twitter\Traits\HelpTrait;
+use Rylxes\Twitter\Traits\ListTrait;
+use Rylxes\Twitter\Traits\MediaTrait;
+use Rylxes\Twitter\Traits\SearchTrait;
+use Rylxes\Twitter\Traits\StatusTrait;
+use Rylxes\Twitter\Traits\TrendTrait;
+use Rylxes\Twitter\Traits\UserTrait;
 
 class Twitter extends tmhOAuth {
 
