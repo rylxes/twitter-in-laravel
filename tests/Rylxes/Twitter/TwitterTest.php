@@ -1,26 +1,28 @@
 <?php
 
 
-class TwitterTest extends \PHPUnit_Framework_TestCase
+class TwitterTest extends \PHPUnit\Framework\TestCase
 {
+
+    //PHPUnit_Framework_TestCase
     protected function getTwitter()
     {
         return $this->getMockBuilder('Rylxes\Twitter\Twitter')
-                    ->setMethods(array('query'))
-                    ->disableOriginalConstructor()
-                    ->getMock();
+            ->setMethods(array('query'))
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     protected function getTwitterExpecting($endpoint, array $queryParams)
     {
         $twitter = $this->getTwitter();
         $twitter->expects($this->once())
-                ->method('query')
-                ->with(
-                    $endpoint,
-                    $this->anything(),
-                    $queryParams
-                );
+            ->method('query')
+            ->with(
+                $endpoint,
+                $this->anything(),
+                $queryParams
+            );
         return $twitter;
     }
 
@@ -100,11 +102,11 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * getList can accept list_id, or slug and owner_screen_name, or slug and owner_id
-    *
-    * Use a Data Provider to test this method with different params without repeating our code
-    * @dataProvider providerGetList
-    */
+     * getList can accept list_id, or slug and owner_screen_name, or slug and owner_id
+     *
+     * Use a Data Provider to test this method with different params without repeating our code
+     * @dataProvider providerGetList
+     */
     public function testGetList($params)
     {
         $this->paramTest('lists/show', 'getList', $params);
@@ -114,21 +116,21 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('list_id'=>1),
+                array('list_id' => 1),
             ),
             array(
-                array('slug'=>'sugar_to_kiss', 'owner_screen_name'=>'elwood')
+                array('slug' => 'sugar_to_kiss', 'owner_screen_name' => 'elwood')
             ),
             array(
-                array('slug'=>'sugar_to_kiss', 'owner_id'=>1)
+                array('slug' => 'sugar_to_kiss', 'owner_id' => 1)
             )
         );
     }
 
     /**
-    *
-    * @dataProvider providerGetListBad
-    */
+     *
+     * @dataProvider providerGetListBad
+     */
     public function testGetListFails($params)
     {
         $this->setExpectedException('Exception');
@@ -140,16 +142,16 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('slug'=>1),
+                array('slug' => 1),
             )
         );
     }
 
     /**
-    * getListMembers can accept list_id, or slug and owner_screen_name, or slug and owner_id
-    *
-    * @dataProvider providerGetListMembers
-    */
+     * getListMembers can accept list_id, or slug and owner_screen_name, or slug and owner_id
+     *
+     * @dataProvider providerGetListMembers
+     */
     public function testGetListMembers($params)
     {
         $this->paramTest('lists/members', 'getListMembers', $params);
@@ -159,7 +161,7 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('list_id'=>1),
+                array('list_id' => 1),
             ),
             array(
                 array('slug' => 'sugar_to_kiss', 'owner_screen_name' => 'elwood'),
@@ -171,8 +173,8 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * @dataProvider providerGetListMembersBad
-    */
+     * @dataProvider providerGetListMembersBad
+     */
     public function testGetListMembersFails($params)
     {
         $this->setExpectedException('Exception');
@@ -190,12 +192,12 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * getListMember can accept list_id and user_id, or list_id and screen_name,
-    * or slug and owner_screen_name and user_id, or slug and owner_screen_name and screen_name,
-    * or slug and owner_id and user_id, or slug and owner_id and screen_name
-    *
-    * @dataProvider providerGetListMember
-    */
+     * getListMember can accept list_id and user_id, or list_id and screen_name,
+     * or slug and owner_screen_name and user_id, or slug and owner_screen_name and screen_name,
+     * or slug and owner_id and user_id, or slug and owner_id and screen_name
+     *
+     * @dataProvider providerGetListMember
+     */
     public function testGetListMember($params)
     {
         $this->paramTest('lists/members/show', 'getListMember', $params);
@@ -226,8 +228,8 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-    * @dataProvider providerGetListMemberBad
-    */
+     * @dataProvider providerGetListMemberBad
+     */
     public function testGetListMemberFails($params)
     {
         $this->setExpectedException('Exception');
