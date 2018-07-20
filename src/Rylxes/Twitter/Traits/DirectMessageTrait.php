@@ -51,6 +51,17 @@ Trait DirectMessageTrait {
 	}
 
 	/**
+	* Returns all Direct Message events (both sent and received) within the last 30 days. Sorted in reverse-chronological order.
+	* Parameters :
+	* - count(optional) - Max number of events to be returned. 20 default. 50 max.
+	* - cursor(optional) - For paging through result sets greater than 1 page, use the “next_cursor” property from the previous request.
+	*/
+	public function getDmAll($parameters = [])
+	{
+		return $this->get('direct_messages/events/list', $parameters); 
+	}
+
+	/**
 	 * Destroys the direct message specified in the required ID parameter. The authenticating user must be the recipient of the specified direct message.
 	 *
 	 * Parameters :
@@ -77,8 +88,8 @@ Trait DirectMessageTrait {
 	 */
 	public function postDm($parameters = [])
 	{
-		if ((!array_key_exists('user_id', $parameters) && !array_key_exists('screen_name', $parameters)) || !array_key_exists('text', $parameters))
-		{
+		if ((!array_key_exists('user_id', $parameters) || !array_key_exists('screen_name', $parameters)) && !array_key_exists('text', $parameters))
+ 		{
 			throw new BadMethodCallException('Parameter required missing : user_id, screen_name or text');
 		}
 

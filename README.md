@@ -20,7 +20,7 @@ Or run
 ```
 composer require rylxes/twitter-in-laravel
 ```
-
+If you're installing the package in Laravel 5.4 or lower, you must import the service provider:
 Now open up `/config/app.php` and add the service provider to your `providers` array.
 ```php
 'providers' => [
@@ -107,6 +107,8 @@ format : object|json|array (default:object)
 * `getDmsIn()` - Returns the 20 most recent direct messages sent to the authenticating user. Includes detailed information about the sender and recipient user. You can request up to 200 direct messages per call, and only the most recent 200 DMs will be available using this endpoint.
 * `destroyDm()` - Destroys the direct message specified in the required ID parameter. The authenticating user must be the recipient of the specified direct message.
 * `postDm()` - Sends a new direct message to the specified user from the authenticating user. Requires both the user and text parameters and must be a POST. Returns the sent message in the requested format if successful.
+* `getDmAll()` - Returns all Direct Message events (both sent and received) within the last 30 days. Sorted in reverse-chronological order.
+
 
 ### Favorite
 
@@ -174,6 +176,7 @@ format : object|json|array (default:object)
 ### Search
 
 * `getSearch()` - Returns a collection of relevant Tweets matching a specified query.
+* `getSearchByUser()` - Returns a collection of relevant user matching a specified query.
 * `getSavedSearches()` - Returns the authenticated user’s saved search queries.
 * `getSavedSearch()` - Retrieve the information for the saved search represented by the given id. The authenticating user must be the owner of saved search ID being requested.
 * `postSavedSearch()` - Create a new saved search for the authenticated user. A user may only have 25 saved searches.
