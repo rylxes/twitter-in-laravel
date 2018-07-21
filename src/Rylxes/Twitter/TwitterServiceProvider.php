@@ -1,85 +1,84 @@
-<?php namespace Rylxes\Twitter;
+<?php
+
+namespace Rylxes\Twitter;
 
 use Illuminate\Support\ServiceProvider;
 
-use Rylxes\Twitter\Twitter;
+class TwitterServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-class TwitterServiceProvider extends ServiceProvider {
+    /**
+     * Actual provider
+     *
+     * @var \Illuminate\Support\ServiceProvider
+     */
+    protected $provider;
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Create a new service provider instance.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application $app
+     * @return void
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+        $this->provider = $this->getProvider();
+    }
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		//
-	}
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        if (method_exists($this->provider, 'boot')) {
+            return $this->provider->boot();
+        }
+    }
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$app = $this->app ?: app();
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        return $this->provider->register();
+    }
 
-		$appVersion = method_exists($app, 'version') ? $app->version() : $app::VERSION;
+    /**
+     * Return ServiceProvider according to Laravel version
+     *
+     * @return \Rylxes\Twitter\Provider\ProviderInterface
+     */
+    private function getProvider()
+    {
+        if ($this->app instanceof \Laravel\Lumen\Application) {
+            $provider = '\Rylxes\Twitter\TwitterServiceProviderLumen';
+        } elseif (version_compare(\Illuminate\Foundation\Application::VERSION, '5.0', '<')) {
+            $provider = '\Rylxes\Twitter\TwitterServiceProviderLaravel4';
+        } else {
+            $provider = '\Rylxes\Twitter\TwitterServiceProviderLaravel5';
+        }
 
-		$laravelVersion = substr($appVersion, 0, strpos($appVersion, '.'));
+        return new $provider($this->app);
+    }
 
-		$isLumen = false;
-
-		if (strpos(strtolower($laravelVersion), 'lumen') !== false)
-		{
-			$isLumen = true;
-
-			$laravelVersion = str_replace('Lumen (', '', $laravelVersion);
-		}
-
-		if ($laravelVersion == 5)
-		{
-			$this->mergeConfigFrom(__DIR__.'/../../config/config.php', 'ttwitter');
-
-			if ($isLumen)
-			{
-				$this->publishes([
-					__DIR__ . '/../config/config.php' => base_path('config/ttwitter.php'),
-				]);
-			}
-			else
-			{
-				$this->publishes([
-					__DIR__.'/../../config/config.php' => config_path('ttwitter.php'),
-				]);
-			}
-		}
-		else if ($laravelVersion == 4)
-		{
-			$this->package('rylxes/twitter', 'ttwitter', __DIR__.'/../..');
-		}
-
-		$this->app->singleton(Twitter::class, function () use ($app) {
-			return new Twitter($app['config'], $app['session.store']);
-		});
-	}
-
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return ['ttwitter'];
-	}
-
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['ttwitter'];
+    }
 }

@@ -1,4 +1,5 @@
-<?php namespace Rylxes\Twitter\Facades;
+<?php
+namespace Rylxes\Twitter\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

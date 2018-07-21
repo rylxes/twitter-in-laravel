@@ -1,0 +1,11 @@
+{
+  "providers": [
+    "Rylxes\\Twitter\\TwitterServiceProvider"
+  ],
+  "aliases": [
+    {
+      "alias": "Twitter",
+      "facade": "Rylxes\\Twitter\\Facades\\Twitter"
+    }
+  ]
+}

@@ -1,4 +1,6 @@
-<?php namespace Rylxes\Twitter\Traits;
+<?php
+
+namespace Rylxes\Twitter\Traits;
 
 use BadMethodCallException;
 

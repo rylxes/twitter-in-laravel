@@ -1,10 +1,11 @@
 <?php
 
+namespace Rylxes\Twitter\Test;
 
-class TwitterTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class TwitterTest extends TestCase
 {
-
-    //PHPUnit_Framework_TestCase
     protected function getTwitter()
     {
         return $this->getMockBuilder('Rylxes\Twitter\Twitter')
@@ -29,7 +30,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
     public function paramTest($endpoint, $testedMethod, $params)
     {
         $twitter = $this->getTwitterExpecting($endpoint, $params);
-
         $twitter->$testedMethod($params);
     }
 
@@ -38,7 +38,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
         $twitter = $this->getTwitterExpecting('users/show', array(
             'screen_name' => 'my_screen_name'
         ));
-
         $twitter->getUsers(array(
             'screen_name' => 'my_screen_name'
         ));
@@ -49,7 +48,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
         $twitter = $this->getTwitterExpecting('users/show', array(
             'user_id' => 1234567890
         ));
-
         $twitter->getUsers(array(
             'user_id' => 1234567890
         ));
@@ -61,7 +59,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
     public function testGetUsersInvalid()
     {
         $twitter = $this->getTwitter();
-
         $twitter->getUsers(array(
             'include_entities' => true
         ));
@@ -72,7 +69,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
         $twitter = $this->getTwitterExpecting('users/lookup', array(
             'user_id' => '1,2,3,4'
         ));
-
         $twitter->getUsersLookup(array(
             'user_id' => implode(',', array(1, 2, 3, 4))
         ));
@@ -83,7 +79,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
         $twitter = $this->getTwitterExpecting('users/lookup', array(
             'screen_name' => 'me,you,everybody'
         ));
-
         $twitter->getUsersLookup(array(
             'screen_name' => implode(',', array('me', 'you', 'everybody'))
         ));
@@ -95,7 +90,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
     public function testGetUsersLookupInvalid()
     {
         $twitter = $this->getTwitter();
-
         $twitter->getUsersLookup(array(
             'include_entities' => true
         ));
@@ -127,25 +121,7 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     *
-     * @dataProvider providerGetListBad
-     */
-    public function testGetListFails($params)
-    {
-        $this->setExpectedException('Exception');
-        $twitter = $this->getTwitter();
-        $twitter->getList($params);
-    }
 
-    public function providerGetListBad()
-    {
-        return array(
-            array(
-                array('slug' => 1),
-            )
-        );
-    }
 
     /**
      * getListMembers can accept list_id, or slug and owner_screen_name, or slug and owner_id
@@ -172,24 +148,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @dataProvider providerGetListMembersBad
-     */
-    public function testGetListMembersFails($params)
-    {
-        $this->setExpectedException('Exception');
-        $twitter = $this->getTwitter();
-        $twitter->getListMembers($params);
-    }
-
-    public function providerGetListMembersBad()
-    {
-        return array(
-            array(
-                array('slug' => 'sweetheart_to_miss')
-            )
-        );
-    }
 
     /**
      * getListMember can accept list_id and user_id, or list_id and screen_name,
@@ -223,25 +181,6 @@ class TwitterTest extends \PHPUnit\Framework\TestCase
             ),
             array(
                 array('slug' => 'sugar_to_kiss', 'owner_id' => 1, 'user_id' => 2)
-            )
-        );
-    }
-
-    /**
-     * @dataProvider providerGetListMemberBad
-     */
-    public function testGetListMemberFails($params)
-    {
-        $this->setExpectedException('Exception');
-        $twitter = $this->getTwitter();
-        $twitter->getListMembers($params);
-    }
-
-    public function providerGetListMemberBad()
-    {
-        return array(
-            array(
-                array('slug' => 'sweetheart_to_miss')
             )
         );
     }

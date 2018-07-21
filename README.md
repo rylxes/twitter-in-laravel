@@ -21,6 +21,8 @@ Or run
 composer require rylxes/twitter-in-laravel
 ```
 If you're installing the package in Laravel 5.4 or lower, you must import the service provider:
+
+
 Now open up `/config/app.php` and add the service provider to your `providers` array.
 ```php
 'providers' => [
