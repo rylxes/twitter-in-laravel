@@ -1,4 +1,6 @@
-<?php namespace Rylxes\Twitter;
+<?php
+
+namespace Rylxes\Twitter;
 
 use RunTimeException;
 use Carbon\Carbon as Carbon;
