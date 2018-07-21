@@ -2,187 +2,50 @@
 
 namespace Rylxes\Twitter\Test;
 
-use PHPUnit\Framework\TestCase;
-
+use Illuminate\Http\Response;
+use Mockery;
+use Orchestra\Testbench\TestCase;
+use Illuminate\Foundation\Testing\TestResponse;
 class TwitterTest extends TestCase
 {
-    protected function getTwitter()
+    /** @var Mockery\Mock */
+    protected $twitter;
+
+    public function setUp()
     {
-        return $this->getMockBuilder('Rylxes\Twitter\Twitter')
-            ->setMethods(array('query'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        parent::setUp();
+        $this->twitter = Mockery::mock(Twitter::class);
     }
 
-    protected function getTwitterExpecting($endpoint, array $queryParams)
+    public function tearDown()
     {
-        $twitter = $this->getTwitter();
-        $twitter->expects($this->once())
-            ->method('query')
+        Mockery::close();
+        parent::tearDown();
+    }
+
+    protected function getTwitterExpecting($endpoint, array $queryParams, $response)
+    {
+
+        $this->twitter
+            ->shouldReceive($endpoint)
+            ->once()
             ->with(
-                $endpoint,
-                $this->anything(),
                 $queryParams
-            );
-        return $twitter;
-    }
-
-    public function paramTest($endpoint, $testedMethod, $params)
-    {
-        $twitter = $this->getTwitterExpecting($endpoint, $params);
-        $twitter->$testedMethod($params);
-    }
-
-    public function testGetUsersWithScreenName()
-    {
-        $twitter = $this->getTwitterExpecting('users/show', array(
-            'screen_name' => 'my_screen_name'
-        ));
-        $twitter->getUsers(array(
-            'screen_name' => 'my_screen_name'
-        ));
-    }
-
-    public function testGetUsersWithId()
-    {
-        $twitter = $this->getTwitterExpecting('users/show', array(
-            'user_id' => 1234567890
-        ));
-        $twitter->getUsers(array(
-            'user_id' => 1234567890
-        ));
-    }
-
-    /**
-     * @expectedException Exception
-     */
-    public function testGetUsersInvalid()
-    {
-        $twitter = $this->getTwitter();
-        $twitter->getUsers(array(
-            'include_entities' => true
-        ));
-    }
-
-    public function testGetUsersLookupWithIds()
-    {
-        $twitter = $this->getTwitterExpecting('users/lookup', array(
-            'user_id' => '1,2,3,4'
-        ));
-        $twitter->getUsersLookup(array(
-            'user_id' => implode(',', array(1, 2, 3, 4))
-        ));
-    }
-
-    public function testGetUsersLookupWithScreenNames()
-    {
-        $twitter = $this->getTwitterExpecting('users/lookup', array(
-            'screen_name' => 'me,you,everybody'
-        ));
-        $twitter->getUsersLookup(array(
-            'screen_name' => implode(',', array('me', 'you', 'everybody'))
-        ));
-    }
-
-    /**
-     * @expectedException Exception
-     */
-    public function testGetUsersLookupInvalid()
-    {
-        $twitter = $this->getTwitter();
-        $twitter->getUsersLookup(array(
-            'include_entities' => true
-        ));
-    }
-
-    /**
-     * getList can accept list_id, or slug and owner_screen_name, or slug and owner_id
-     *
-     * Use a Data Provider to test this method with different params without repeating our code
-     * @dataProvider providerGetList
-     */
-    public function testGetList($params)
-    {
-        $this->paramTest('lists/show', 'getList', $params);
-    }
-
-    public function providerGetList()
-    {
-        return array(
-            array(
-                array('list_id' => 1),
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_screen_name' => 'elwood')
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_id' => 1)
             )
-        );
+            ->andReturn($response)
+        ;
+
+
     }
 
-
-
-    /**
-     * getListMembers can accept list_id, or slug and owner_screen_name, or slug and owner_id
-     *
-     * @dataProvider providerGetListMembers
-     */
-    public function testGetListMembers($params)
+    /** @test */
+    public function successGetUsersWithScreenName()
     {
-        $this->paramTest('lists/members', 'getListMembers', $params);
-    }
+        $response = new Response(200);
+        $this->getTwitterExpecting('getUsersLookup', ['screen_name' => 'my_screen_name'], $response);
+        $channel_response = $this->twitter->getUsersLookup(['screen_name' => 'my_screen_name']);
+        $this->assertInstanceOf(Response::class, $channel_response);
 
-    public function providerGetListMembers()
-    {
-        return array(
-            array(
-                array('list_id' => 1),
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_screen_name' => 'elwood'),
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_id' => 1),
-            )
-        );
-    }
-
-
-    /**
-     * getListMember can accept list_id and user_id, or list_id and screen_name,
-     * or slug and owner_screen_name and user_id, or slug and owner_screen_name and screen_name,
-     * or slug and owner_id and user_id, or slug and owner_id and screen_name
-     *
-     * @dataProvider providerGetListMember
-     */
-    public function testGetListMember($params)
-    {
-        $this->paramTest('lists/members/show', 'getListMember', $params);
-    }
-
-    public function providerGetListMember()
-    {
-        return array(
-            array(
-                array('list_id' => 1, 'user_id' => 2)
-            ),
-            array(
-                array('list_id' => 1, 'screen_name' => 'jake')
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_screen_name' => 'elwood', 'user_id' => 2)
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_screen_name' => 'elwood', 'screen_name' => 'jake')
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_id' => 1, 'screen_name' => 'jake')
-            ),
-            array(
-                array('slug' => 'sugar_to_kiss', 'owner_id' => 1, 'user_id' => 2)
-            )
-        );
     }
 
 }
